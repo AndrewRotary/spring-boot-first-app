@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/headering" th:remove="tag"></head>
+<body>
+<div class="col-xs-10 col-xs-offset-1 wr-main">
+    <h1>Search Student by:</h1>
+
+    <!--<form action="#" th:action="" method="get" class="row">-->
+    <!--<div class="col-xs-6">-->
+    <!--<input type="hidden" name="id" value=""/>-->
+    <!--<div class="form-group ">-->
+    <!--<label>last Name: </label> <input class="input-student form-control" path="person.lastName" name="lastName"/>-->
+    <!--</div>-->
+    <!--<div class="form-group ">-->
+    <!--&lt;!&ndash;<label>Addres: </label> <input class="input-student form-control" path="" name="address" value=""/>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div class="form-group ">-->
+    <!--<label>Group nr. </label>-->
+    <!--<select name="group" id="group" class="select-student">-->
+    <!--&lt;!&ndash;<option selected>none</option>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<c:forEach items="${groups}" var="group">&ndash;&gt;-->
+    <!--&lt;!&ndash;<%&#45;&#45;<option value="<c:out value="${group.id}"/>"><c:out value="${group.name}"/></option>&#45;&#45;%>&ndash;&gt;-->
+    <!--&lt;!&ndash;<option value="<c:out value="${group.id}"/>">${group.name}</option>&ndash;&gt;-->
+    <!--&lt;!&ndash;</c:forEach>&ndash;&gt;-->
+    <!--</select>-->
+    <!--</div>-->
+    <!--<div class="form-group ">-->
+    <!--<label for="" class="mt-41">Gender: </label>-->
+    <!--&lt;!&ndash;<input type="radio" CLASS="radio" name="gender" value="Male"> Male&ndash;&gt;-->
+    <!--&lt;!&ndash;<input type="radio" CLASS="radio" name="gender" value="Female"> Female&ndash;&gt;-->
+    <!--&lt;!&ndash;<input type="radio" CLASS="radio" name="gender" value="" checked> All&ndash;&gt;-->
+    <!--</div>-->
+    <!--<a href="${pageContext.request.contextPath}/StudentController" class="btn-student mt-25">Reset</a>-->
+    <!--</div>-->
+    <!--<div class="col-xs-6">-->
+    <!--<div class="form-group ">-->
+    <!--<label>Date of Birth: </label> <input class="input-student form-control" type="date" path="person.dob" name="dobStart"-->
+    <!--value=""/>-->
+    <!--</div>-->
+    <!--<div class="form-group ">-->
+    <!--<label>End Date </label> <input class="input-student form-control" type="date" path="person.dob" name="dobEnd"-->
+    <!--value=""/>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<label for="">Discipline</label>-->
+    <!--<select name="discipline" id="" class="select-student">-->
+    <!--&lt;!&ndash;<option selected disabled>none</option>&ndash;&gt;-->
+    <!--&lt;!&ndash;<c:forEach items="${disciplines}" var="discipline">&ndash;&gt;-->
+    <!--&lt;!&ndash;<option value="<c:out value="${discipline.id}"/>"><c:out value="${discipline.title}"></c:out> </option>&ndash;&gt;-->
+    <!--&lt;!&ndash;</c:forEach>&ndash;&gt;-->
+    <!--</select>-->
+    <!--</div>-->
+    <!--<div class="form-group ">-->
+    <!--<label>Total Average: </label> <input class="input-student form-control" path="" name="average" value=""/>-->
+    <!--</div>-->
+    <!--<input type="submit" value="Search" name="search" class="btn-student mt-25"/>-->
+    <!--</div>-->
+    <!--</form>-->
+    <div class="row">
+        <h1 class="mt-41">Student List</h1>
+        <form action="${pageContext.request.contextPath}/" method="post" commandName="deleteStudent">
+            <table class="table-student table table-striped">
+                <tr>
+                    <th>Delete</th>
+                    <th>Picture</th>
+                    <th>Name</th>
+                    <th>Birth Day</th>
+                    <th>Gender</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Library</th>
+                    <th>Marks</th>
+                    <th>Action</th>
+                </tr>
+                <tr th:each="student : ${students}">
+                    <td>
+                        <input th:value="${student.id}" type="checkbox" id="st-delete" name="delete[]" value=""/>
+                    </td>
+                    <td class="">
+                        <img th:src="${'/images/' + student.Id + '.jpg'}" width="75" height="75" src="" alt=""/>
+                    </td>
+                    <td>
+                        <p th:text="${student.firstName}"></p>
+                        <p th:text="${student.lastName}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${student.dob}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${student.gender}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${student.address.address}"></p>
+                    </td>
+                    <td>
+                        <div th:each="phone : ${student.phones}">
+                            <span th:text="${phone.phoneType}"></span> :
+                            <span th:text="${phone.number}"></span>
+                        </div>
+                    </td>
+                    <td>
+                        Status:
+                        <a href="${pageContext.request.contextPath}/editLibrarystatus?id=${student.id}" th:text="${student.librarySubscription.status}"
+                        class="btn-student"><i class="glyphicon glyphicon-pencil"></i></a>
+                    </td>
+                    <td>
+                        <div th:each="mark : ${student.marks}">
+                            <span th:text="${mark.discipline.title}"></span> :
+                            <span th:text="${mark.mark}"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/editStudent?id=${student.id}" class="btn-student"><i
+                                class="glyphicon glyphicon-pencil"></i></a>
+                        <a href="${pageContext.request.contextPath}/addMark?id=${student.id}" class="mt-20 btn-student">Add
+                            Mark</a>
+                    </td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col-xs-6">
+                    <button type="submit" class="btn-delete btn-student mt-25">Deleete Student(s)</button>
+                </div>
+                <div class="col-xs-6">
+                    <a th:href="@{/addStudent}"  class="btn-student mt-25">Add
+                        student</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
