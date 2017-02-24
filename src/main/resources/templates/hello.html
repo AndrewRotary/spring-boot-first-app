@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="/headering" th:remove="tag"></head>
 <body>
-<div class="col-xs-10 col-xs-offset-1 wr-main">
+<div class="wr-main">
     <h1>Search Student by:</h1>
 
     <!--<form action="#" th:action="" method="get" class="row">-->
@@ -81,8 +81,8 @@
                         <img th:src="${'/images/' + student.Id + '.jpg'}" width="75" height="75" src="" alt=""/>
                     </td>
                     <td>
-                        <p th:text="${student.firstName}"></p>
-                        <p th:text="${student.lastName}"></p>
+                        <span th:text="${student.firstName}"></span>
+                        <span th:text="${student.lastName}"></span>
                     </td>
                     <td>
                         <p th:text="${student.dob}"></p>
@@ -101,7 +101,7 @@
                     </td>
                     <td>
                         Status:
-                        <a href="${pageContext.request.contextPath}/editLibrarystatus?id=${student.id}" th:text="${student.librarySubscription.status}"
+                        <a th:href="@{/editLib/{id}(id=${student.librarySubscription.idLibrarySubscription})}" th:text="${student.librarySubscription.status}"
                         class="btn-student"><i class="glyphicon glyphicon-pencil"></i></a>
                     </td>
                     <td>

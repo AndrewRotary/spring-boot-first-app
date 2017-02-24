@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,6 +47,9 @@ public class WelcomeController {
   @Autowired
   ServletContext context;
 
+  @Autowired
+  LibrarySubscriptionRepository librarySubscriptionRepository;
+
   @RequestMapping("/")
   public String index(Model model) {
     List<Student> students = (List<Student>) studentRepository.findAll();
@@ -72,12 +76,10 @@ public class WelcomeController {
     LibrarySubscription librarySubscription = new LibrarySubscription();
     librarySubscription.setStatus("NONE");
     student.setLibrarySubscription(librarySubscription);
-
-
     studentRepository.save(student);
     MultipartFile image = student.getImageMultipart();
     String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-    path = Paths.get(context.getRealPath("/")+ student.getId() +".jpg");
+    path = Paths.get("C:/Users/student/IdeaProjects/student/src/main/resources/static/images" + student.getId() +".jpg");
     if (image != null && !image.isEmpty()) {
       try {
         image.transferTo(new File(path.toString()));
@@ -86,11 +88,12 @@ public class WelcomeController {
         throw new RuntimeException("Product image saving failed.", e);
       }
     }
-
     for(Phone phone : student.getPhones()){
       phone.setPerson(student);
       phoneRepository.save(phone);
     }
     return "redirect:/";
   }
+
+
 }
