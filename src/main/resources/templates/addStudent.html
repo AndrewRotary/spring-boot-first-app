@@ -6,7 +6,10 @@
 <div class="container wr-main">
     <h1>Add Student</h1>
     <div class="row">
-        <form th:action="@{/addStudent}" method="post" th:object="${student}" enctype="multipart/form-data">
+        <form th:action="(${student.Id}) ? (@{/editStudent}) : (@{/addStudent})" method="post" th:object="${student}"
+              enctype="multipart/form-data">
+            <input type="hidden" th:field="*{librarySubscription.idLibrarySubscription}"/>
+            <input type="hidden" th:field="*{Id}"/>
             <div class="col-xs-6">
                 <div class="form-group">
                     <label>First Name: </label>
@@ -28,6 +31,7 @@
                 <div class="form-group">
                     <label>Country: </label>
                     <input th:field="*{address.country}" class=" input-student form-control"/>
+                    <input type="hidden" th:field="*{address.idAddress}" class=" input-student form-control"/>
                 </div>
             </div>
             <div class="col-xs-6">
@@ -35,32 +39,53 @@
                     <label>City: </label>
                     <input th:field="*{address.city}" class="input-student form-control"/>
                 </div>
-                <div class="form-group">
-                    <label>Addres: </label>
+                <div class="form-group"><label>Addres: </label>
                     <input th:field="*{address.address}" class="input-student form-control"/>
                 </div>
                 <div class="form-group" th:each="phone, stat : *{phones}">
                     <label>Phone(s): </label>
                     <select class="select-student" th:field="*{phones[__${stat.index}__].phoneType}">
                         <option th:each="phoneType : ${phoneTypes}"
-                                th:value="${phoneType.name}"><span th:text="${phoneType.name}"></span></option>
+                                th:value="${phoneType.name}" th:selected="${phoneType.idPhoneType}"><span
+                                th:text="${phoneType.name}"></span></option>
                     </select>
                     <label>Phone's number: </label>
-                    <input th:field="*{phones[__${stat.index}__].number}" class="input-student form-control"
+                    <input th:field="*{phones[__${stat.index}__].number}"  class="input-student form-control"
+                           placeholder="Phone number"/>
+                    <input type="hidden" th:field="*{phones[__${stat.index}__].idPhone}"  class="input-student form-control"
                            placeholder="Phone number"/>
                 </div>
                 <div class="form-group">
                     <label>Group nr. </label>
                     <select class="select-student" th:field="*{group}">
                         <option th:value="${group.idGroup}"
-                                th:each="group : ${groups}" th:text="${group.name}"></option>
+                                th:each="group : ${groups}" th:text="${group.name}"
+                                th:selected="${group.idGroup}"></option>
                     </select>
                 </div>
             </div>
-            <div class="fileUpload btn-student">
-                <span>Upload</span>
-                <input type="file" value="Upload Student image" th:field="*{imageMultipart}" name="file" class="upload"/>
+
+            <div th:switch="${student.picturePath} ? ${false} : ${true}">
+                <div th:case="${false}">
+                    <img height="75" width="75" th:src="${'/images/' + student.picturePath}" alt=""/>
+                    <div class="fileUpload btn-student">
+                    <span>Upload new Picture</span>
+                    <input type="file" value="Upload Student image" th:field="*{imageMultipart}" name="file"
+                           class="upload"/>
+                    </div>
+                </div>
+                <div th:case="${true}">
+                    <span>Custom avatar</span>
+                    <img width="75" height="75" th:src="${'/images/std.jpg'}" alt="standart avatari"/>
+                    <div class="fileUpload btn-student">
+                        <span>Upload Picture</span>
+                        <input type="file" value="Upload Student image" th:field="*{imageMultipart}" name="file"
+                               class="upload"/>
+                    </div>
+                </div>
             </div>
+
+
             <input type="submit" value="submit" class="btn-student mt-25"/>
         </form>
     </div>

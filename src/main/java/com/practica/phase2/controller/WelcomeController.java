@@ -52,48 +52,9 @@ public class WelcomeController {
 
   @RequestMapping("/")
   public String index(Model model) {
-    List<Student> students = (List<Student>) studentRepository.findAll();
-
+    List<Student> students = (List<Student>) studentRepository.findStudentByStatus(true);
     model.addAttribute("students", students);
     return "hello";
   }
-
-  @RequestMapping("/addStudent")
-  public String addStudetn(Model model){
-    List<PhoneType> phoneTypes = (List<PhoneType>) phoneTypeRepository.findAll();
-    List<Groupp> groups = (List<Groupp>) grouppRepository.findAll();
-    Student student = new Student();
-    student.getPhones().add(new Phone());
-    model.addAttribute("groups", groups);
-    model.addAttribute("phoneTypes", phoneTypes);
-    model.addAttribute("student", student);
-    return "addStudent";
-  }
-
-  @RequestMapping(value = "/addStudent", method = RequestMethod.POST)
-  public String saveStudent(@Valid @ModelAttribute("student") Student student, HttpServletRequest request,
-                            HttpServletResponse response, Model model){
-    LibrarySubscription librarySubscription = new LibrarySubscription();
-    librarySubscription.setStatus("NONE");
-    student.setLibrarySubscription(librarySubscription);
-    studentRepository.save(student);
-    MultipartFile image = student.getImageMultipart();
-    String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-    path = Paths.get("C:/Users/student/IdeaProjects/student/src/main/resources/static/images" + student.getId() +".jpg");
-    if (image != null && !image.isEmpty()) {
-      try {
-        image.transferTo(new File(path.toString()));
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new RuntimeException("Product image saving failed.", e);
-      }
-    }
-    for(Phone phone : student.getPhones()){
-      phone.setPerson(student);
-      phoneRepository.save(phone);
-    }
-    return "redirect:/";
-  }
-
 
 }

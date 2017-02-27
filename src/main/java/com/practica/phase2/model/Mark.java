@@ -1,5 +1,7 @@
 package com.practica.phase2.model;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -10,6 +12,7 @@ import java.sql.Date;
 public class Mark {
   private Integer idMark;
   private Double mark;
+  @CreatedDate
   private Date createdDate;
   private Student student;
   private Profesor profesor;

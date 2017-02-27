@@ -59,7 +59,7 @@
     <!--</form>-->
     <div class="row">
         <h1 class="mt-41">Student List</h1>
-        <form action="${pageContext.request.contextPath}/" method="post" commandName="deleteStudent">
+        <form th:action="@{/deleteStudents}" method="post" commandName="deleteStudent">
             <table class="table-student table table-striped">
                 <tr>
                     <th>Delete</th>
@@ -78,7 +78,7 @@
                         <input th:value="${student.id}" type="checkbox" id="st-delete" name="delete[]" value=""/>
                     </td>
                     <td class="">
-                        <img th:src="${'/images/' + student.Id + '.jpg'}" width="75" height="75" src="" alt=""/>
+                        <img th:src="${student.picturePath} ? ${'/images/' + student.Id + '.jpg'} : '/images/std.jpg'" width="75" height="75" src="" alt=""/>
                     </td>
                     <td>
                         <span th:text="${student.firstName}"></span>
@@ -111,9 +111,9 @@
                         </div>
                     </td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/editStudent?id=${student.id}" class="btn-student"><i
+                        <a th:href="@{/editStudent/{id}(id=${student.Id})}" class="btn-student"><i
                                 class="glyphicon glyphicon-pencil"></i></a>
-                        <a href="${pageContext.request.contextPath}/addMark?id=${student.id}" class="mt-20 btn-student">Add
+                        <a th:href="@{/addMark/{id}(id=${student.Id})}" class="mt-20 btn-student">Add
                             Mark</a>
                     </td>
                 </tr>
