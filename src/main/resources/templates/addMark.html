@@ -5,16 +5,17 @@
 <div class="container">
     <div class="col-xs-8 col-xs-offset-2">
         <div class="wr-main">
-            <h1>Add marks to <span th:text="${mark.student.firstName}"></span> <span th:text="${mark.student.lastName}"></span></h1>
+            <h1>Add marks to <span th:text="${mark.student.firstName}"></span> <span
+                    th:text="${mark.student.lastName}"></span></h1>
 
             <form th:action="@{/addMark}" method="post" th:object="${mark}" commandName="addMark">
-                <input type="hidden" th:field="*{student}" />
+                <input type="hidden" th:field="*{student}"/>
                 <!--<input type="hidden" name="id" value="<c:out value="${student.id}"></c:out>"/>-->
                 <div class="form-group">
                     <label for="">Discipline</label>
                     <select th:field="*{discipline}" class="select-student">
                         <option th:each="d : ${disciplines}" th:text="${d.title}"
-                                th:value="${d.idDiscipline}" ></option>
+                                th:value="${d.idDiscipline}"></option>
                     </select>
                 </div>
                 <div class="form-group">

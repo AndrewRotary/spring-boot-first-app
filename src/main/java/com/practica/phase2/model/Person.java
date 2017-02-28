@@ -1,12 +1,12 @@
 package com.practica.phase2.model;
 
-import org.springframework.data.annotation.*;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,10 +20,17 @@ import java.util.Collection;
 public abstract class Person {
 
   private Integer id;
+  @NotNull
+  @Size(min=2, max=30, message = "size must be between 2 and 30")
   private String firstName;
+  @NotNull(message = "choose gender")
   private String gender;
   private String picturePath;
+  @NotNull
+  @Size(min=2, max=30, message = "size must be between 2 and 30")
   private String lastName;
+  @NotNull(message = "choose date of birth")
+  @Past
   private Date dob;
   private Address address;
   private LibrarySubscription librarySubscription;
@@ -113,7 +120,7 @@ public abstract class Person {
 
   @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
   public Collection<Phone> getPhones() {
-    if(phones == null){
+    if (phones == null) {
       phones = new ArrayList<Phone>();
     }
     return phones;
@@ -121,12 +128,13 @@ public abstract class Person {
 
   public void setPhones(Collection<Phone> phonesByIdPerson) {
     this.phones = phonesByIdPerson;
-    }
+  }
 
   @Transient
   public MultipartFile getImageMultipart() {
     return imageMultipart;
   }
+
   @Transient
   public void setImageMultipart(MultipartFile imageMultipart) {
     this.imageMultipart = imageMultipart;

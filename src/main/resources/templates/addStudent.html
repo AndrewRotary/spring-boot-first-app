@@ -12,24 +12,31 @@
             <input type="hidden" th:field="*{Id}"/>
             <div class="col-xs-6">
                 <div class="form-group">
-                    <label>First Name: </label>
+                    <label>First Name:
+                        <span class="error-txt" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Name Error</span>
+                    </label>
                     <input th:field="*{firstName}" class="input-student form-control"/>
+
                 </div>
                 <div class="form-group">
                     <label>last Name: </label>
+                    <span class="error-txt" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name Error</span>
                     <input th:field="*{lastName}" class="input-student form-control"/>
                 </div>
                 <div class="form-group">
                     <label>Date of Birth: </label>
+                    <span class="error-txt" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}">Name Error</span>
                     <input type="date" th:field="*{dob}" class="input-student form-control"/>
                 </div>
                 <div class="form-group">
+                    <span class="error-txt" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Name Error</span>
                     <label class="radio-l"> <input type="radio" th:field="*{gender}" class="radio" th:value="Male"/>male</label>
                     <label class="radio-l"> <input type="radio" th:field="*{gender}" class="radio" th:value="Female"/>Female</label>
 
                 </div>
                 <div class="form-group">
                     <label>Country: </label>
+                    <span class="error-txt" th:if="${#fields.hasErrors('address.country')}" th:errors="*{address.country}">Name Error</span>
                     <input th:field="*{address.country}" class=" input-student form-control"/>
                     <input type="hidden" th:field="*{address.idAddress}" class=" input-student form-control"/>
                 </div>
@@ -37,9 +44,11 @@
             <div class="col-xs-6">
                 <div class="form-group">
                     <label>City: </label>
+                    <span class="error-txt" th:if="${#fields.hasErrors('address.city')}" th:errors="*{address.city}">Name Error</span>
                     <input th:field="*{address.city}" class="input-student form-control"/>
                 </div>
                 <div class="form-group"><label>Addres: </label>
+                    <span class="error-txt" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Name Error</span>
                     <input th:field="*{address.address}" class="input-student form-control"/>
                 </div>
                 <div class="form-group" th:each="phone, stat : *{phones}">
@@ -50,9 +59,11 @@
                                 th:text="${phoneType.name}"></span></option>
                     </select>
                     <label>Phone's number: </label>
-                    <input th:field="*{phones[__${stat.index}__].number}"  class="input-student form-control"
+                    <input th:field="*{phones[__${stat.index}__].number}" class="input-student form-control"
                            placeholder="Phone number"/>
-                    <input type="hidden" th:field="*{phones[__${stat.index}__].idPhone}"  class="input-student form-control"
+                    <span class="error-txt" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Name Error</span>
+                    <input type="hidden" th:field="*{phones[__${stat.index}__].idPhone}"
+                           class="input-student form-control"
                            placeholder="Phone number"/>
                 </div>
                 <div class="form-group">
@@ -69,9 +80,9 @@
                 <div th:case="${false}">
                     <img height="75" width="75" th:src="${'/images/' + student.picturePath}" alt=""/>
                     <div class="fileUpload btn-student">
-                    <span>Upload new Picture</span>
-                    <input type="file" value="Upload Student image" th:field="*{imageMultipart}" name="file"
-                           class="upload"/>
+                        <span>Upload new Picture</span>
+                        <input type="file" value="Upload Student image" th:field="*{imageMultipart}" name="file"
+                               class="upload"/>
                     </div>
                 </div>
                 <div th:case="${true}">

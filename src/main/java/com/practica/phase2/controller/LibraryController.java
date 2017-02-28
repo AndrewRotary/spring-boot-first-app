@@ -39,7 +39,7 @@ public class LibraryController {
 
   @RequestMapping(value = "/editLib", method = RequestMethod.POST)
   public String saveLib(@ModelAttribute("lib") LibrarySubscription librarySubscription, HttpServletRequest request,
-                        HttpServletResponse response, Model model){
+                        HttpServletResponse response, Model model) {
     librarySubscriptionRepository.save(librarySubscription);
     return "redirect:/";
   }

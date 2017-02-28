@@ -1,5 +1,7 @@
 package com.practica.phase2.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -9,8 +11,11 @@ import java.util.Collection;
 @Entity
 public class Address {
   private Integer idAddress;
+  @NotEmpty(message = "write country")
   private String country;
+  @NotEmpty(message = "write city")
   private String city;
+  @NotEmpty(message = "write address")
   private String address;
   private Collection<Person> person;
 

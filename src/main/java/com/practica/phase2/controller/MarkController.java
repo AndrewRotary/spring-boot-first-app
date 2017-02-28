@@ -1,9 +1,7 @@
 package com.practica.phase2.controller;
 
-import com.practica.phase2.dao.DisciplineRepository;
-import com.practica.phase2.dao.MarkRepository;
-import com.practica.phase2.dao.ProfesorRepository;
-import com.practica.phase2.dao.StudentRepository;
+import com.practica.phase2.dao.*;
+import com.practica.phase2.model.DisciplineAverage;
 import com.practica.phase2.model.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,19 +31,26 @@ public class MarkController {
   @Autowired
   MarkRepository markRepository;
 
+  @Autowired
+  DisciplineAverageRepository disciplineAverageRepository;
+
   @RequestMapping("/addMark/{id}")
-  public String addMark(@PathVariable Integer id, Model model){
+  public String addMark(@PathVariable Integer id, Model model) {
     Mark mark = new Mark();
-    mark.setStudent( studentRepository.findOne(id));
+    mark.setStudent(studentRepository.findOne(id));
     model.addAttribute("mark", mark);
     model.addAttribute("profesors", profesorRepository.findAll());
     model.addAttribute("disciplines", disciplineRepository.findAll());
     return "addMark";
   }
 
-  @RequestMapping(value = "/addMark", method = RequestMethod.POST )
-  public String addMarkPost(@Valid @ModelAttribute("mark") Mark mark, Model model){
-   markRepository.save(mark);
+  @RequestMapping(value = "/addMark", method = RequestMethod.POST)
+  public String addMarkPost(@Valid @ModelAttribute("mark") Mark mark, Model model) {
+    markRepository.save(mark);
+    DisciplineAverage disciplineAverage = disciplineAverageRepository.findDisciplineAverageByDiscipline(mark.getDiscipline());
+    double myMark = (mark.getMark() + disciplineAverage.getAverageMark()) / 2;
+    disciplineAverage.setAverageMark(myMark);
+    disciplineAverageRepository.save(disciplineAverage);
     return "redirect:/";
   }
 }

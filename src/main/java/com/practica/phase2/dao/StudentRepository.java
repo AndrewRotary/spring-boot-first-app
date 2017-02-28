@@ -13,5 +13,6 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends CrudRepository<Student, Integer> {
   public Student findStudentByLibrarySubscription(LibrarySubscription librarySubscription);
+
   public List<Student> findStudentByStatus(Boolean status);
-  }
+}

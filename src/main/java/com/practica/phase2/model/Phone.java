@@ -1,6 +1,9 @@
 package com.practica.phase2.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 /**
  * Created by student on 2/22/2017.
@@ -8,6 +11,7 @@ import javax.persistence.*;
 @Entity
 public class Phone {
   private Integer idPhone;
+  @Size(min=9, message = "min size 9")
   private Integer number;
   private String phoneType;
   private Person person;

@@ -2,6 +2,8 @@ package com.practica.phase2.model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by student on 2/22/2017.
@@ -16,6 +18,18 @@ public class Student extends Person {
   private Collection<DisciplineAverage> disciplineAverage;
   private Collection<Mark> marks;
   private Groupp group;
+
+  @SuppressWarnings({"JpaAttributeMemberSignatureInspection", "JpaAttributeTypeInspection"})
+  @Transient
+  public Map<String, Double> getDisciplineAverageMark() {
+    HashMap<String, Double> map = new HashMap<>();
+    for (Mark mark : marks) {
+      String title = mark.getDiscipline().getTitle();
+      map.putIfAbsent(title, marks.stream().filter(mark1 -> mark1.getDiscipline().getTitle().equals(title))
+          .mapToDouble(Mark::getMark).average().orElse(0.0));
+    }
+    return map;
+  }
 
   @Basic
   @Column(name = "calculate_scholarship", nullable = true, precision = 0)
@@ -48,7 +62,7 @@ public class Student extends Person {
     this.imageName = imageName;
   }
 
-  @OneToMany(mappedBy = "student")
+  @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
   public Collection<DisciplineAverage> getDisciplineAverage() {
     return disciplineAverage;
   }

@@ -78,7 +78,8 @@
                         <input th:value="${student.id}" type="checkbox" id="st-delete" name="delete[]" value=""/>
                     </td>
                     <td class="">
-                        <img th:src="${student.picturePath} ? ${'/images/' + student.Id + '.jpg'} : '/images/std.jpg'" width="75" height="75" src="" alt=""/>
+                        <img th:src="${student.picturePath} ? ${'/images/' + student.Id + '.jpg'} : '/images/std.jpg'"
+                             width="75" height="75" src="" alt=""/>
                     </td>
                     <td>
                         <span th:text="${student.firstName}"></span>
@@ -101,13 +102,18 @@
                     </td>
                     <td>
                         Status:
-                        <a th:href="@{/editLib/{id}(id=${student.librarySubscription.idLibrarySubscription})}" th:text="${student.librarySubscription.status}"
-                        class="btn-student"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a th:href="@{/editLib/{id}(id=${student.librarySubscription.idLibrarySubscription})}"
+                           th:text="${student.librarySubscription.status}"
+                           class="btn-student"><i class="glyphicon glyphicon-pencil"></i></a>
                     </td>
                     <td>
-                        <div th:each="mark : ${student.marks}">
-                            <span th:text="${mark.discipline.title}"></span> :
-                            <span th:text="${mark.mark}"></span>
+                        <!--<div th:each="disciplineAverage : ${student.disciplineAverage}">-->
+                        <!--<span th:text="${disciplineAverage.discipline.title}"></span> :-->
+                        <!--<span th:text="${disciplineAverage.averageMark}"></span>-->
+                        <!--</div>-->
+                        <div th:each=" d : ${student.DisciplineAverageMark}">
+                            <span th:text="${d.key}"></span>
+                            <span th:text="${d.value}"></span>
                         </div>
                     </td>
                     <td>
@@ -123,7 +129,7 @@
                     <button type="submit" class="btn-delete btn-student mt-25">Deleete Student(s)</button>
                 </div>
                 <div class="col-xs-6">
-                    <a th:href="@{/addStudent}"  class="btn-student mt-25">Add
+                    <a th:href="@{/addStudent}" class="btn-student mt-25">Add
                         student</a>
                 </div>
             </div>
