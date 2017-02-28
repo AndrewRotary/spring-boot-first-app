@@ -6,6 +6,7 @@ import com.practica.phase2.model.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,12 +46,17 @@ public class MarkController {
   }
 
   @RequestMapping(value = "/addMark", method = RequestMethod.POST)
-  public String addMarkPost(@Valid @ModelAttribute("mark") Mark mark, Model model) {
+  public String addMarkPost(@ModelAttribute("mark") @Valid Mark mark, BindingResult bindingResult, Model model) {
+    if (bindingResult.hasErrors()) {
+      model.addAttribute("profesors", profesorRepository.findAll());
+      model.addAttribute("disciplines", disciplineRepository.findAll());
+      return "addMark";
+    }
     markRepository.save(mark);
-    DisciplineAverage disciplineAverage = disciplineAverageRepository.findDisciplineAverageByDiscipline(mark.getDiscipline());
-    double myMark = (mark.getMark() + disciplineAverage.getAverageMark()) / 2;
-    disciplineAverage.setAverageMark(myMark);
-    disciplineAverageRepository.save(disciplineAverage);
+//    DisciplineAverage disciplineAverage = disciplineAverageRepository.findDisciplineAverageByDiscipline(mark.getDiscipline());
+//    double myMark = (mark.getMark() + disciplineAverage.getAverageMark()) / 2;
+//    disciplineAverage.setAverageMark(myMark);
+//    disciplineAverageRepository.save(disciplineAverage);
     return "redirect:/";
   }
 }

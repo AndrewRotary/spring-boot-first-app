@@ -41,20 +41,18 @@ public class StudentController {
 
   @GetMapping("/addStudent")
   public String addStudetn(Model model) {
-    List<PhoneType> phoneTypes = (List<PhoneType>) phoneTypeRepository.findAll();
-    List<Groupp> groups = (List<Groupp>) grouppRepository.findAll();
     Student student = new Student();
     student.getPhones().add(new Phone());
-    model.addAttribute("groups", groups);
-    model.addAttribute("phoneTypes", phoneTypes);
-    model.addAttribute("student", student);
+    modelAddEditStudent(model, student);
     return "addStudent";
   }
 
   @PostMapping(value = "/addStudent")
-  public String saveStudent(@ModelAttribute("student") @Valid Student student,BindingResult bindingResult, HttpServletRequest request) {
+  public String saveStudent(@ModelAttribute("student") @Valid Student student,
+                            BindingResult bindingResult, HttpServletRequest request, Model model) {
 
     if (bindingResult.hasErrors()) {
+      modelAddEditStudent(model, student);
       return "addStudent";
     }
     LibrarySubscription librarySubscription = new LibrarySubscription();
@@ -132,6 +130,12 @@ public class StudentController {
     }
 
     return "redirect:/";
+  }
+
+  private void modelAddEditStudent(Model model, Student student){
+    model.addAttribute("groups", grouppRepository.findAll());
+    model.addAttribute("phoneTypes", phoneTypeRepository.findAll());
+    model.addAttribute("student", student);
   }
 
 }

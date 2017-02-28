@@ -3,6 +3,7 @@ package com.practica.phase2.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 /**
@@ -11,11 +12,11 @@ import java.util.Collection;
 @Entity
 public class Address {
   private Integer idAddress;
-  @NotEmpty(message = "write country")
+  @NotNull(message = "*Write country")
   private String country;
-  @NotEmpty(message = "write city")
+  @NotEmpty(message = "*Write city")
   private String city;
-  @NotEmpty(message = "write address")
+  @NotEmpty(message = "*Write address")
   private String address;
   private Collection<Person> person;
 

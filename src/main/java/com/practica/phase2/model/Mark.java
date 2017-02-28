@@ -3,6 +3,8 @@ package com.practica.phase2.model;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 
 /**
@@ -10,8 +12,14 @@ import java.sql.Date;
  */
 @Entity
 public class Mark {
+
   private Integer idMark;
-  private Double mark;
+
+  @DecimalMin(value = "0.1", inclusive = true)
+  @DecimalMax(value = "10", inclusive = true)
+  @NotNull(message = "*insert Mark please")
+  @Column(name = "mark")
+  private BigDecimal value;
   @CreatedDate
   private Date createdDate;
   private Student student;
@@ -19,6 +27,7 @@ public class Mark {
   private Discipline discipline;
 
   @Id
+  @GeneratedValue
   @Column(name = "id_mark", nullable = false, insertable = false, updatable = false)
   public Integer getIdMark() {
     return idMark;
@@ -30,12 +39,12 @@ public class Mark {
 
   @Basic
   @Column(name = "mark", nullable = true, precision = 0)
-  public Double getMark() {
-    return mark;
+  public BigDecimal getValue() {
+    return value;
   }
 
-  public void setMark(Double mark) {
-    this.mark = mark;
+  public void setValue(BigDecimal mark) {
+    this.value = mark;
   }
 
   @Basic

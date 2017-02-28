@@ -26,7 +26,7 @@ public class Student extends Person {
     for (Mark mark : marks) {
       String title = mark.getDiscipline().getTitle();
       map.putIfAbsent(title, marks.stream().filter(mark1 -> mark1.getDiscipline().getTitle().equals(title))
-          .mapToDouble(Mark::getMark).average().orElse(0.0));
+          .mapToDouble(m -> m.getValue().doubleValue()).average().orElse(0.0));
     }
     return map;
   }

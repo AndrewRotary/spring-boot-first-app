@@ -151,9 +151,23 @@ i {
     margin-top: 41px;
 }
 .error-txt{
-    color: #ff9800;
+    color: #a94442;
     text-transform: capitalize;
     font-size: 18px;
+    border: 1px solid #ebccd1;
     font-style: italic;
+    text-decoration: underline;
+    background: #f2dede;
     font-weight: 100;
+    width: 40%;
+    border-radius: 3px;
+    margin: 2px auto;
+    display: inline-block;
+}
+.wr-upload{
+    margin-top: 30px;
+    padding: 10px 0;
+    -webkit-box-shadow: inset 0px 2px 23px -14px rgba(0,0,0,1);
+    -moz-box-shadow: inset 0px 2px 23px -14px rgba(0,0,0,1);
+    box-shadow: inset 0px 2px 23px -14px rgba(0,0,0,1);
 }

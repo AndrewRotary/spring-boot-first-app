@@ -1,15 +1,18 @@
 package com.practica.phase2.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
-import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by student on 2/22/2017.
@@ -21,19 +24,22 @@ public abstract class Person {
 
   private Integer id;
   @NotNull
-  @Size(min=2, max=30, message = "size must be between 2 and 30")
+  @Size(min=2, max=30, message = "*First Name size must be between 2 and 30")
   private String firstName;
-  @NotNull(message = "choose gender")
+  @NotNull(message = "*choose gender")
   private String gender;
   private String picturePath;
   @NotNull
-  @Size(min=2, max=30, message = "size must be between 2 and 30")
+  @Size(min=2, max=30, message = "*Last Name size must be between 2 and 30")
   private String lastName;
-  @NotNull(message = "choose date of birth")
+  @NotNull(message = "*choose date of birth")
   @Past
+  @DateTimeFormat(pattern = "yyyy-mm-dd")
   private Date dob;
+  @Valid
   private Address address;
   private LibrarySubscription librarySubscription;
+  @Valid
   private Collection<Phone> phones;
   @Transient
   private MultipartFile imageMultipart;
