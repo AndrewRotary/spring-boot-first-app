@@ -1,5 +1,3 @@
-# spring-boot-first-app
-spring-boot, student-managet
 <h1>Quick start a Spring Boot project</h1>
 Step 1: Create a new project Spring Initializr in Intellij Idea <br>
 Step 2: Choose dependencies <br>
